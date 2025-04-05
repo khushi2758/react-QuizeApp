@@ -3,7 +3,7 @@ import QUESTIONS from "../questions.js";
 import quizIsCompleteImg from "../assets/quiz-complete.png";
 import QuestionTimer from "./QuestionTimer.jsx";
 export default function Quiz() {
-  const [answerState, setAnswerState] = useState("");
+  const [answerState, setAnswerState] = useState('');
   const [useAnswers, setUseAnswers] = useState([]);
   const activeQuestionIndex =
     answerState === "" ? useAnswers.length : useAnswers.length - 1;
@@ -12,18 +12,19 @@ export default function Quiz() {
 
   const handelSelectAnswer = useCallback(
     function handelSelectAnswer(selectedAnswer) {
+      setAnswerState('answered');
       setUseAnswers((prevUserAnswer) => {
         return [...prevUserAnswer, selectedAnswer];
       });
       setTimeout(() => {
         if (setUseAnswers === QUESTIONS[activeQuestionIndex].answers[0]) {
-          selectedAnswer("correct");
+          setAnswerState("correct");
         } else {
           setAnswerState("wrong");
         }
 
         setTimeout(() => {
-          setAnswerState("");
+          setAnswerState('');
         }, 2000);
       }, 1000);
     },
@@ -58,22 +59,22 @@ export default function Quiz() {
         <ul id="answers">
           {shuffledAnswer.map((answer) => {
            
-           const isSelected = useAnswers[useAnswers.length -1] === answer; 
-           let cssClasses = '';
+           const isSelected = useAnswers[useAnswers.length - 1] === answer; 
+           let cssClass = '';
            
            if(answerState === 'answered' && isSelected) {
-            cssClasses = 'selected';
+            cssClass= 'selected';
            }
             
-            if((answerState=== 'correct' || answerState === 'wrong' ) && isSelected)
+            if((answerState === 'correct' || answerState === 'wrong' ) && isSelected)
             {
-              cssClasses = answerState;
+              cssClass = answerState;
             }
 
             return (
               <li key={answer} className="answer">
-                <button onClick={() => handelSelectAnswer(answer)}
-                  className={cssClasses}
+                <button onClick={() => handelSelectAnswer(answer) }
+                  className={cssClass}
                   >
                   {answer}
                 </button>
